@@ -1,10 +1,6 @@
 package de.paettyb.umlEditor.ui;
 
-interface IButton {
-    boolean handleEvent(int a, int b);
-}
-
-public class Button implements IButton{
+public class Button{
 
     private int x,y;
     private int width = 40, height = 20;
@@ -12,7 +8,7 @@ public class Button implements IButton{
 
     Runnable callback;
 
-    public Button(String Label, int x, int y, Runnable callback){
+    public Button(String label, int x, int y, Runnable callback){
         this.label = label;
         this.x = x;
         this.y = y;
