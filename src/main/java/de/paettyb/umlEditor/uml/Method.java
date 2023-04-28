@@ -1,6 +1,5 @@
 package de.paettyb.umlEditor.uml;
 
-public class ClassObject {
-
+public class Method {
 
 }

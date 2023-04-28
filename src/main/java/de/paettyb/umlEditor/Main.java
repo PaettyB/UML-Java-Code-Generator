@@ -1,17 +1,19 @@
 package de.paettyb.umlEditor;
 
-import java.awt.*;
-
 import de.paettyb.engine.Engine;
-import de.paettyb.umlEditor.ui.Button;
+import de.paettyb.engine.ui.CanvasButton;
+import de.paettyb.umlEditor.uml.ClassAddDialogue;
+import de.paettyb.umlEditor.uml.Diagramm;
+
+import java.awt.*;
 
 public class Main extends Engine {
     
-    Button b = new Button("Test", 50, 50, () -> System.out.println("Test"));
+    private Diagramm diagramm = new Diagramm();
+    private CanvasButton b = new CanvasButton("New Class", 50, 50, this::openCreateDialogue);
     
     public Main(String name, int width, int height) {
         super(name, width, height);
-        b.handleEvent(55, 55);
     }
     
     public static void main(String[] args) {
@@ -21,11 +23,17 @@ public class Main extends Engine {
     
     @Override
     public void tick() {
-    
+        b.update();
+        diagramm.update();
     }
     
     @Override
     public void render(Graphics g) {
         b.render(g);
+        diagramm.render(g);
+    }
+    
+    private void openCreateDialogue() {
+        ClassAddDialogue dialogue = new ClassAddDialogue();
     }
 }
