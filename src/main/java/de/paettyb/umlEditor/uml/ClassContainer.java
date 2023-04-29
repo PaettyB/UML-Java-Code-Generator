@@ -1,5 +1,6 @@
 package de.paettyb.umlEditor.uml;
 
+import de.paettyb.engine.input.MouseManager;
 import de.paettyb.engine.ui.DragBox;
 
 import java.awt.*;
@@ -18,9 +19,10 @@ public class ClassContainer extends DragBox {
     private ArrayList<String> attributes = new ArrayList<>();
     private ArrayList<String> methods = new ArrayList<>();
     
-    public ClassContainer(String className, int x, int y) {
-        super(x, y, 100, 50);
+    public ClassContainer(String className) {
+        super(MouseManager.mouseX-50, MouseManager.mouseY-25, 100, 50);
         this.className = className;
+        fixedToMouse = true;
     }
     
     

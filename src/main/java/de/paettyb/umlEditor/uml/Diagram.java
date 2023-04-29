@@ -3,7 +3,7 @@ package de.paettyb.umlEditor.uml;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Diagramm {
+public class Diagram {
     
     private ArrayList<ClassContainer> classes = new ArrayList<>();
     
@@ -20,6 +20,6 @@ public class Diagramm {
     }
     
     public void addClass(){
-        classes.add(new ClassContainer("Test", 200,200));
+        classes.add(new ClassContainer("Test"));
     }
 }
