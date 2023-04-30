@@ -2,7 +2,6 @@ package de.paettyb.umlEditor;
 
 import de.paettyb.engine.Engine;
 import de.paettyb.engine.ui.CanvasButton;
-import de.paettyb.umlEditor.uml.ClassAddDialogue;
 import de.paettyb.umlEditor.uml.Diagram;
 
 import java.awt.*;
@@ -31,9 +30,5 @@ public class Main extends Engine {
     public void render(Graphics g) {
         b.render(g);
         diagram.render(g);
-    }
-    
-    private void openCreateDialogue() {
-        ClassAddDialogue dialogue = new ClassAddDialogue();
     }
 }

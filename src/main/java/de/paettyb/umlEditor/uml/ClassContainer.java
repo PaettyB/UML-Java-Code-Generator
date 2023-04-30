@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ClassContainer extends DragBox {
     
-    private String className;
+    private ClassObject classObject;
     private final Font classNameFont = new Font("Arial", Font.BOLD, 15);
     private final Font attribFont = new Font("Arial", Font.PLAIN, 13);
     
@@ -16,15 +16,21 @@ public class ClassContainer extends DragBox {
     private int classNameHeight = 0;
     private int attribHeight = 0;
     
-    private ArrayList<String> attributes = new ArrayList<>();
-    private ArrayList<String> methods = new ArrayList<>();
     
     public ClassContainer(String className) {
-        super(MouseManager.mouseX-50, MouseManager.mouseY-25, 100, 50);
-        this.className = className;
-        fixedToMouse = true;
+        super(MouseManager.mouseX - 50, MouseManager.mouseY - 25, 100, 50);
+        classObject = new ClassObject(className, new ArrayList<>(), new ArrayList<>());
+        this.fixedToMouse = true;
+        setAction(this::openEditWindow);
     }
     
+    public void openEditWindow() {
+        ClassEditDialogue ced = new ClassEditDialogue(this, classObject.name, classObject.attributes, classObject.methods);
+    }
+    
+    public void setClass(ClassObject classObject) {
+        this.classObject = classObject;
+    }
     
     //TODO: OPTIMIZE SIZE CALCULATION AFTER CHANGES
     @Override
@@ -36,50 +42,73 @@ public class ClassContainer extends DragBox {
             attribHeight = g.getFontMetrics().getAscent();
         }
         
-        height = 6 * padding + classNameHeight + attribHeight * (attributes.size() + methods.size());
+        height = 6 * padding + classNameHeight + attribHeight * (classObject.attributes.size() + classObject.methods.size());
         
-        for(String s : attributes){
+        for (String s : classObject.attributes) {
             g.setFont(attribFont);
-            if(g.getFontMetrics().stringWidth(s) + 2*padding > width)
-                width = g.getFontMetrics().stringWidth(s) + 2*padding;
+            if (g.getFontMetrics().stringWidth(s) + 2 * padding > width)
+                width = g.getFontMetrics().stringWidth(s) + 2 * padding;
         }
-    
-        for(String s : methods){
+        
+        for (String s : classObject.methods) {
             g.setFont(attribFont);
-            if(g.getFontMetrics().stringWidth(s) + 2*padding > width)
-                width = g.getFontMetrics().stringWidth(s) + 2*padding;
+            if (g.getFontMetrics().stringWidth(s) + 2 * padding > width)
+                width = g.getFontMetrics().stringWidth(s) + 2 * padding;
         }
         
         super.render(g);
         
         g.setFont(classNameFont);
-        int classNameWidth = g.getFontMetrics().stringWidth(className);
+        int classNameWidth = g.getFontMetrics().stringWidth(classObject.name);
         g.setColor(Color.BLACK);
-        g.drawString(className, (int) (x + width * 0.5 - classNameWidth * 0.5), y + classNameHeight + padding);
+        g.drawString(classObject.name, (int) (x + width * 0.5 - classNameWidth * 0.5), y + classNameHeight + padding);
         
         int firstLineY = y + 2 * padding + classNameHeight;
-        g.drawLine(x, firstLineY, x + width-1, firstLineY);
+        g.drawLine(x, firstLineY, x + width - 1, firstLineY);
         
         g.setFont(attribFont);
         
-        for (int i = 0; i < attributes.size(); i++) {
-            g.drawString(attributes.get(i), x + padding, firstLineY + padding + (i + 1) * attribHeight);
+        for (int i = 0; i < classObject.attributes.size(); i++) {
+            g.drawString(classObject.attributes.get(i), x + padding, firstLineY + padding + (i + 1) * attribHeight);
         }
         
-        int secondLineY = firstLineY + attributes.size() * attribHeight + padding*2;
-        g.drawLine(x, secondLineY, x + width-1, secondLineY);
-    
-        for (int i = 0; i < methods.size(); i++) {
-            g.drawString(methods.get(i), x + padding, secondLineY + padding + (i + 1) * attribHeight);
+        int secondLineY = firstLineY + classObject.attributes.size() * attribHeight + padding * 2;
+        g.drawLine(x, secondLineY, x + width - 1, secondLineY);
+        
+        for (int i = 0; i < classObject.methods.size(); i++) {
+            g.drawString(classObject.methods.get(i), x + padding, secondLineY + padding + (i + 1) * attribHeight);
         }
     }
     
     public void addAttribute(String s) {
-        attributes.add(s);
+        classObject.attributes.add(s);
     }
     
     public void addMethod(String s) {
-        methods.add(s);
+        classObject.attributes.add(s);
     }
     
+    public String getClassName() {
+        return classObject.name;
+    }
+    
+    public void setClassName(String className) {
+        this.classObject.name = className;
+    }
+    
+    public ArrayList<String> getAttributes() {
+        return classObject.attributes;
+    }
+    
+    public ArrayList<String> getMethods() {
+        return classObject.methods;
+    }
+    
+    public int getPadding() {
+        return padding;
+    }
+    
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
 }
