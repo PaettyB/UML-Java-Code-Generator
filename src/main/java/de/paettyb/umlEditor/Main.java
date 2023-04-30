@@ -8,8 +8,9 @@ import java.awt.*;
 
 public class Main extends Engine {
     
-    private Diagram diagram = new Diagram();
-    private CanvasButton b = new CanvasButton("New Class", 50, 50, () -> diagram.addClass());
+    private final Diagram diagram = new Diagram(this);
+    private final CanvasButton addClass = new CanvasButton("New Class", 10, 10, diagram::addClass);
+    private final CanvasButton  addArrow = new CanvasButton("New Arrow", 10, 60, diagram::addArrow);
     
     public Main(String name, int width, int height) {
         super(name, width, height);
@@ -22,13 +23,15 @@ public class Main extends Engine {
     
     @Override
     public void tick() {
-        b.update();
+        addClass.update();
+        addArrow.update();
         diagram.update();
     }
     
     @Override
     public void render(Graphics g) {
-        b.render(g);
+        addClass.render(g);
+        addArrow.render(g);
         diagram.render(g);
     }
 }
