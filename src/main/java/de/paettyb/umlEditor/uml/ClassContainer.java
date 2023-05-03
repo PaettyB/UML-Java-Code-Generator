@@ -2,6 +2,7 @@ package de.paettyb.umlEditor.uml;
 
 import de.paettyb.engine.input.MouseManager;
 import de.paettyb.engine.ui.DragBox;
+import de.paettyb.engine.utils.Vec2i;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,8 +16,10 @@ public class ClassContainer extends DragBox {
     private int padding = 5;
     private int classNameHeight = 0;
     private int attribHeight = 0;
-    
-    
+
+    private ArrayList<Arrow> incomingArrows = new ArrayList<>();
+    private ArrayList<Arrow> outgoingArrows = new ArrayList<>();
+
     public ClassContainer(String className) {
         super(MouseManager.mouseX - 50, MouseManager.mouseY - 25, 100, 50);
         classObject = new ClassObject(className, new ArrayList<>(), new ArrayList<>());
@@ -31,7 +34,19 @@ public class ClassContainer extends DragBox {
     public void setClass(ClassObject classObject) {
         this.classObject = classObject;
     }
-    
+
+    @Override
+    public void update() {
+        super.update();
+        for(Arrow a : incomingArrows){
+            a.setEndPos(new Vec2i(x,y));
+        }
+
+        for(Arrow a : outgoingArrows){
+            a.setStartPos(new Vec2i(x,y));
+        }
+    }
+
     //TODO: OPTIMIZE SIZE CALCULATION AFTER CHANGES
     @Override
     public void render(Graphics g) {
@@ -78,6 +93,10 @@ public class ClassContainer extends DragBox {
         for (int i = 0; i < classObject.methods.size(); i++) {
             g.drawString(classObject.methods.get(i), x + padding, secondLineY + padding + (i + 1) * attribHeight);
         }
+
+        for(Arrow a: outgoingArrows) {
+            a.render(g);
+        }
     }
     
     public void addAttribute(String s) {
@@ -87,7 +106,15 @@ public class ClassContainer extends DragBox {
     public void addMethod(String s) {
         classObject.attributes.add(s);
     }
-    
+
+    public void addIncomingArrow(Arrow a){
+        incomingArrows.add(a);
+    }
+
+    public void addOutgoingArrow(Arrow a) {
+        outgoingArrows.add(a);
+    }
+
     public String getClassName() {
         return classObject.name;
     }

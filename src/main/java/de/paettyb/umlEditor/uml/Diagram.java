@@ -30,6 +30,9 @@ public class Diagram {
                 } else if (addArrowStage == 2){
                     arrowStart.setHighligted(false);
                     addArrowStage = 0;
+                    Arrow a = new Arrow(arrowStart, c);
+                    arrowStart.addOutgoingArrow(a);
+                    c.addIncomingArrow(a);
                     main.getDisplay().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
